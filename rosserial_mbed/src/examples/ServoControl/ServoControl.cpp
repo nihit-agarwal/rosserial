@@ -9,6 +9,7 @@
  *
  */
 
+
 #include "mbed.h"
 #include "Servo.h"
 #include <ros.h>
@@ -23,7 +24,7 @@ Servo servo(D8);
 #else
 #error "You need to specify a pin for the Servo"
 #endif
-DigitalOut myled(LED1);
+DigitalOut myled(LED2);
 
 void servo_cb( const std_msgs::UInt16& cmd_msg) {
     servo.position(cmd_msg.data); //set servo angle, should be from 0-180
@@ -44,3 +45,41 @@ int main() {
     }
 }
 
+
+
+/*
+#include "mbed.h"
+
+#ifdef TARGET_LPC1768
+PwmOut servo(p21);
+#elif defined(TARGET_KL25Z) || defined(TARGET_NUCLEO_F401RE)
+PwmOut servo(D8);
+#else
+#error "You need to specify a pin for the Servo"
+#endif
+
+
+
+const float minPulse = 0.0003f;  // 0 ms
+const float maxPulse = 0.0023f;  // 2 ms
+const float period = 0.020f;     // 20 ms (50 Hz)
+const float stepSize = 0.00005f; // 50 µs step size
+const int delayTime = 30;      // 1 second delay at each step
+
+int main() {
+    servo.period(period); // Set PWM period to 20 ms
+
+    while (true) {
+        for (float pulseWidth = minPulse; pulseWidth <= maxPulse; pulseWidth += stepSize) {
+            servo.pulsewidth(pulseWidth); // Set PWM pulse width
+            if (pulseWidth == 0.0013f) {
+                break;
+            }
+            wait_ms(delayTime); // Wait at each step
+        }
+
+
+        wait_ms(200); // Pause before restarting
+    }
+}
+*/

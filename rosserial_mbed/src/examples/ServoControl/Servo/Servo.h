@@ -78,10 +78,12 @@ public:
     
     /**  Allows calibration of the range and angles for a particular servo
      *
+     * For hs-645mg , it will be 0.001 , 180 up and down
+     * For servo air pump, it will be 0.0005, 180
      * @param range Pulsewidth range from center (1.5ms) to maximum/minimum position in seconds
      * @param degrees Angle from centre to maximum/minimum position in degrees
      */
-    void calibrate(float range = 0.0005, float degrees = 45.0); 
+    void calibrate(float range = 0.0005, float degrees = 180.0); 
         
     /**  Shorthand for the write and read functions */
     Servo& operator= (float percent);

@@ -14,7 +14,8 @@ ros::Publisher chatter("chatter", &str_msg);
 
 char hello[13] = "hello world!";
 
-DigitalOut led = LED1;
+DigitalOut led = LED4;
+
 
 int main() {
     nh.initNode();
@@ -25,7 +26,7 @@ int main() {
         str_msg.data = hello;
         chatter.publish( &str_msg );
         nh.spinOnce();
-        wait_ms(1000);
+        wait_ms(1);
     }
 }
 

@@ -1,0 +1,53 @@
+#include "Servo.h"
+#include "mbed.h"
+
+static float clamp(float value, float min, float max) {
+    if(value < min) {
+        return min;
+    } else if(value > max) {
+        return max;
+    } else {
+        return value;
+    }
+}
+
+Servo::Servo(PinName pin) : _pwm(pin) {
+    calibrate();
+    _pwm.period(0.02);
+    write(0.5);
+}
+// Mid value is 0.0013 for the servo - hs645mg, but for air pump let us put it back to 0.015
+void Servo::write(float percent) {
+    float offset = _range * 2.0 * (percent - 0.5);
+    _pwm.pulsewidth(0.0015 + clamp(offset, -_range, _range));
+    _p = clamp(percent, 0.0, 1.0);
+}
+
+void Servo::position(float degrees) { 
+    float offset = _range *(2 * (degrees / _degrees) - 1);
+    _pwm.pulsewidth(0.0015 + clamp(offset, -_range, _range));
+}
+
+void Servo::calibrate(float range, float degrees) {
+    _range = range;
+    _degrees = degrees;
+}
+
+float Servo::read() {
+    return _p;
+}
+
+Servo& Servo::operator= (float percent) { 
+    write(percent);
+    return *this;
+}
+
+Servo& Servo::operator= (Servo& rhs) {
+    write(rhs.read());
+    return *this;
+}
+
+Servo::operator float() {
+    return read();
+}
+

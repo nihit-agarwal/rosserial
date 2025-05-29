@@ -8,7 +8,7 @@
 
 ros::NodeHandle nh;
 DigitalOut myled(LED1);
-
+DigitalOut myled2(LED2);
 void messageCb(const std_msgs::Empty& toggle_msg){
     myled = !myled;   // blink the led
 }
@@ -20,6 +20,7 @@ int main() {
     nh.subscribe(sub);
 
     while (1) {
+	//myled2 = !myled2;
         nh.spinOnce();
         wait_ms(1);
     }

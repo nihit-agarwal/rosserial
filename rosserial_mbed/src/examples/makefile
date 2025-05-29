@@ -23,6 +23,7 @@ DIRS := ADC\
         ServiceClient\
         ServiceServer\
         ServoControl\
+        PumpControl\
         Temperature\
         TimeTF\
         Ultrasound\
